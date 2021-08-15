@@ -1,11 +1,10 @@
-package com.text.compiler;
-
-import lombok.extern.slf4j.Slf4j;
+package com.text.compiler.validator;
 
 import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.util.LinkedList;
 import java.util.Objects;
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SimpleValidator implements Validator {

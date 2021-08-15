@@ -1,0 +1,4 @@
+public void test(){
+    if (1=1){
+        system.out.println("success");
+}{
