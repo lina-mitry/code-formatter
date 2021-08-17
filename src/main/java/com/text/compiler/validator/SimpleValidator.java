@@ -1,36 +1,33 @@
 package com.text.compiler.validator;
 
-import java.io.BufferedInputStream;
-import java.io.IOException;
+import com.text.compiler.enums.Tokens;
 import java.util.LinkedList;
-import java.util.Objects;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SimpleValidator implements Validator {
     @Override
-    public boolean isValid(String inputPath) {
-        try (var inputStream = getClass().getClassLoader().getResourceAsStream(inputPath);
-             var stream = new BufferedInputStream(Objects.requireNonNull(inputStream))) {
-            int symbol;
-            var stack = new LinkedList<Integer>();
-            while ((symbol = stream.read()) != -1) {
-                if ((char) symbol == '{' || (char) symbol == '}') {
-                    if ((char) symbol == '{') {
-                        stack.push(symbol);
+    public boolean isValid(String content) {
+        return checkBrackets(content);
+    }
+
+    private boolean checkBrackets(String content) {
+        var chars = content.toCharArray();
+        var stack = new LinkedList<Character>();
+        for (char symbol : chars) {
+            if (symbol == Tokens.OPEN_BRACKET.label
+                    || symbol == Tokens.CLOSE_BRACKET.label) {
+                if (symbol == Tokens.OPEN_BRACKET.label) {
+                    stack.push(symbol);
+                } else {
+                    if (stack.size() > 0) {
+                        stack.pop();
                     } else {
-                        if ((char) symbol == '}' && stack.size() > 0) {
-                            stack.pop();
-                        } else {
-                            return false;
-                        }
+                        return false;
                     }
                 }
             }
-            return stack.size() == 0;
-        } catch (IOException e) {
-            log.error("Exception while validating file {}", inputPath, e);
-            return false;
         }
+        return stack.size() == 0;
     }
 }

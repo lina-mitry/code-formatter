@@ -1,62 +1,71 @@
 package com.text.compiler.formatter;
 
-
+import com.text.compiler.enums.Tokens;
 import com.text.compiler.exceptions.ValidationException;
-import com.text.compiler.validator.SimpleValidator;
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
+import com.text.compiler.reader.Reader;
+import com.text.compiler.validator.Validator;
+
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.util.Objects;
+import java.util.Arrays;
+import java.util.stream.Collectors;
+
+import com.text.compiler.writer.Writer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class SimpleFormatter implements Formatter {
-    @Override
-    public void format(String inputPath, String outputPath) throws IOException {
-        var validator = new SimpleValidator();
-        if (!validator.isValid(inputPath)) {
-            throw new ValidationException("Validation was failed");
-        }
-        try (var fileInputStream = getClass().getClassLoader().getResourceAsStream(inputPath);
-             var bufferedInputStream = new BufferedInputStream(Objects.requireNonNull(fileInputStream))) {
-            var builder = new StringBuilder();
-            var line = new StringBuilder();
-            var tab = "    ";
-            int symbol;
-            int bracketCounter = 0;
-            while ((symbol = bufferedInputStream.read()) != -1) {
-                if ((char) symbol == '}') {
-                    line.append(System.getProperty("line.separator"));
-                }
-                line.append((char) symbol);
-                if ((char) symbol == '{' || (char) symbol == ';' || (char) symbol == '}') {
-                    if ((char) symbol == '}') {
-                        builder.append(tab.repeat(Math.max(--bracketCounter, 0)));
-                    } else {
-                        builder.append(tab.repeat(Math.max(bracketCounter, 0)));
-                    }
-                    if ((char) symbol == '{') {
-                        bracketCounter++;
-                    }
-                    builder.append(line.toString().trim()).append(System.getProperty("line.separator"));
-                    line.delete(0, line.length());
-                }
-            }
-            writeResult(outputPath, builder.toString());
-            System.out.println(builder);
-        } catch (IOException e) {
-            log.error("Exception while formatting file {}", inputPath, e);
-            throw e;
-        }
+public class SimpleFormatter extends Formatter {
+    public SimpleFormatter(Validator validator) {
+        super(validator);
     }
 
-    private void writeResult(String fileName, String content) throws IOException {
-        try (var stream = new FileOutputStream(Objects.requireNonNull(getClass().getResource(fileName)).getPath())) {
-            stream.write(content.getBytes(StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            log.error("Exception while writing content to file {} {}", fileName, content, e);
-            throw e;
+    @Override
+    public String format(Reader input, Writer output) throws IOException {
+        var content = readContent(input);
+        if (!validator.isValid(content)) {
+            throw new ValidationException("Validation was failed");
+        }
+        var builder = new StringBuilder();
+        var chars = content.toCharArray();
+        var line = new StringBuilder();
+        var tab = "    ";
+        var bracketCounter = 0;
+        for (char symbol : chars) {
+            if (symbol == Tokens.CLOSE_BRACKET.label) {
+                line.append(System.getProperty("line.separator"));
+            }
+            line.append(symbol);
+            if (Arrays.stream(Tokens.values())
+                    .map((it) -> it.label)
+                    .collect(Collectors.toList())
+                    .contains(symbol)) {
+                if (symbol == Tokens.CLOSE_BRACKET.label) {
+                    builder.append(tab.repeat(Math.max(--bracketCounter, 0)));
+                } else {
+                    builder.append(tab.repeat(Math.max(bracketCounter, 0)));
+                }
+                if (symbol == Tokens.OPEN_BRACKET.label) {
+                    bracketCounter++;
+                }
+                builder.append(line.toString().trim()).append(System.getProperty("line.separator"));
+                line.delete(0, line.length());
+            }
+        }
+        writeContent(builder.toString(), output);
+        return builder.toString();
+    }
+
+    private String readContent(Reader reader) {
+        var content = new StringBuilder();
+        while (reader.hasChars()) {
+            content.append(reader.readChar());
+        }
+        return content.toString();
+    }
+
+    private void writeContent(String content, Writer writer) throws IOException {
+        char[] symbols = content.toCharArray();
+        for (char symbol : symbols) {
+            writer.writeChar(symbol);
         }
     }
 }

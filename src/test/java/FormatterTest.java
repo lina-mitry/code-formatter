@@ -1,54 +1,66 @@
+import com.text.compiler.exceptions.ValidationException;
 import com.text.compiler.formatter.Formatter;
 import com.text.compiler.formatter.SimpleFormatter;
-import com.text.compiler.exceptions.ValidationException;
+import com.text.compiler.reader.StringReader;
+import com.text.compiler.validator.SimpleValidator;
+import com.text.compiler.writer.StringWriter;
 import org.junit.Before;
 import org.junit.Test;
-
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.Assertions;
 
 
 public class FormatterTest {
-    private static Formatter formatter;
-    private static final String PAIR_BRACKETS = "formatter/pairBrackets.txt";
-    private static final String NOT_PAIR_BRACKETS = "formatter/notPairBrackets.txt";
-    private static final String FIRST_CLOSE_BRACKETS = "formatter/firstCloseBrackets.txt";
-    private static final String ONE_LINE_BRACKETS = "formatter/oneLineBrackets.txt";
-    private static final String RESULT = "/formatter/result.txt";
+    private Formatter formatter;
+    private static final String PAIR_BRACKET = "if(aaa)\n{bbb;if(aaa){bbb;}}";
+    private static final String NOT_PAIR_BRACKET = "if(aaa){bbb;if(aaa)\n{bbb;}";
+    private static final String FIRST_CLOSE_BRACKET = "if(aaa)}\nbbb;if(aaa)\n{bbb;}";
+    private static final String DIFFERENT_BRACKET_SEQUENCE = "if(aaa)}bbb;\nif(aaa)}bbb;if{{";
+    private static final String ONE_LINE_EXPRESSION = "if(aaa){bbb;if(aaa){bbb;}}";
 
     @Before
     public void configure() {
-        formatter = new SimpleFormatter();
-    }
-
-    @Test
-    public void checkPairBrackets() {
-        try {
-            formatter.format(PAIR_BRACKETS, RESULT);
-        } catch (Exception e) {
-            fail();
-        }
+        this.formatter = new SimpleFormatter(new SimpleValidator());
     }
 
     @Test
     public void checkNotPairBrackets() {
-        assertThrows(ValidationException.class, () -> {
-            formatter.format(NOT_PAIR_BRACKETS, RESULT);
-        });
+        try (var reader = new StringReader(PAIR_BRACKET);
+             var writer = new StringWriter()) {
+            Assertions.assertDoesNotThrow(() -> formatter.format(reader, writer));
+        }
+
+    }
+
+    @Test
+    public void checkPairBrackets() {
+        try (var reader = new StringReader(NOT_PAIR_BRACKET);
+             var writer = new StringWriter()) {
+            Assertions.assertThrows(ValidationException.class, () -> formatter.format(reader, writer));
+        }
     }
 
     @Test
     public void checkFirstClosePareBrackets() {
-        assertThrows(ValidationException.class, () -> {
-            formatter.format(FIRST_CLOSE_BRACKETS, RESULT);
-        });
+        try (var reader = new StringReader(FIRST_CLOSE_BRACKET);
+             var writer = new StringWriter()) {
+            Assertions.assertThrows(ValidationException.class, () -> formatter.format(reader, writer));
+        }
     }
 
     @Test
-    public void checkOneLineBrackets() {
-        try {
-            formatter.format(ONE_LINE_BRACKETS, RESULT);
-        } catch (Exception e) {
-            fail();
+    public void checkDifferentBracketsSequence() {
+        try (var reader = new StringReader(DIFFERENT_BRACKET_SEQUENCE);
+             var writer = new StringWriter()) {
+            Assertions.assertThrows(ValidationException.class, () -> formatter.format(reader, writer));
         }
     }
+
+    @Test
+    public void checkOneLineExpression() {
+        try (var reader = new StringReader(ONE_LINE_EXPRESSION);
+             var writer = new StringWriter()) {
+            Assertions.assertDoesNotThrow(() -> formatter.format(reader, writer));
+        }
+    }
+
 }
