@@ -1,17 +1,18 @@
 package com.text.compiler.validator;
 
 import com.text.compiler.enums.Tokens;
+import com.text.compiler.exceptions.ValidationException;
 import java.util.LinkedList;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class SimpleValidator implements Validator {
     @Override
-    public boolean isValid(String content) {
-        return checkBrackets(content);
+    public void validate(String content) throws ValidationException {
+        checkBrackets(content);
     }
 
-    private boolean checkBrackets(String content) {
+    private void checkBrackets(String content) throws ValidationException {
         var chars = content.toCharArray();
         var stack = new LinkedList<Character>();
         for (char symbol : chars) {
@@ -23,11 +24,13 @@ public class SimpleValidator implements Validator {
                     if (stack.size() > 0) {
                         stack.pop();
                     } else {
-                        return false;
+                        throw new ValidationException("Failed to check brackets");
                     }
                 }
             }
         }
-        return stack.size() == 0;
+        if (stack.size() != 0) {
+            throw new ValidationException("Failed to check brackets");
+        }
     }
 }

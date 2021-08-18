@@ -1,12 +1,17 @@
+import com.text.compiler.exceptions.ReaderException;
 import com.text.compiler.exceptions.ValidationException;
 import com.text.compiler.formatter.Formatter;
 import com.text.compiler.formatter.SimpleFormatter;
+import com.text.compiler.reader.FileReader;
 import com.text.compiler.reader.StringReader;
 import com.text.compiler.validator.SimpleValidator;
+import com.text.compiler.writer.FileWriter;
 import com.text.compiler.writer.StringWriter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
+
+import java.io.File;
 
 
 public class FormatterTest {
@@ -16,6 +21,8 @@ public class FormatterTest {
     private static final String FIRST_CLOSE_BRACKET = "if(aaa)}\nbbb;if(aaa)\n{bbb;}";
     private static final String DIFFERENT_BRACKET_SEQUENCE = "if(aaa)}bbb;\nif(aaa)}bbb;if{{";
     private static final String ONE_LINE_EXPRESSION = "if(aaa){bbb;if(aaa){bbb;}}";
+    private static final String TEST_OUTPUT_FILE = "resources/output.txt";
+    private static final String FILE_NOT_FOUND = "text.txt";
 
     @Before
     public void configure() {
@@ -61,6 +68,11 @@ public class FormatterTest {
              var writer = new StringWriter()) {
             Assertions.assertDoesNotThrow(() -> formatter.format(reader, writer));
         }
+    }
+
+    @Test
+    public void fileNotFoundException() {
+        Assertions.assertThrows(ReaderException.class, () -> new FileReader(new File(FILE_NOT_FOUND)));
     }
 
 }
