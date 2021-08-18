@@ -1,15 +1,17 @@
 package com.text.compiler.formatter;
 
 import com.text.compiler.enums.Tokens;
+import com.text.compiler.exceptions.ReaderException;
 import com.text.compiler.exceptions.ValidationException;
+import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.reader.Reader;
 import com.text.compiler.validator.Validator;
+import com.text.compiler.writer.Writer;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-import com.text.compiler.writer.Writer;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -54,18 +56,26 @@ public class SimpleFormatter extends Formatter {
         return builder.toString();
     }
 
-    private String readContent(Reader reader) {
-        var content = new StringBuilder();
-        while (reader.hasChars()) {
-            content.append(reader.readChar());
+    private String readContent(Reader reader) throws ReaderException {
+        try {
+            var content = new StringBuilder();
+            while (reader.hasChars()) {
+                content.append(reader.readChar());
+            }
+            return content.toString();
+        } catch (IOException e) {
+            throw new ReaderException("Reader exception");
         }
-        return content.toString();
     }
 
-    private void writeContent(String content, Writer writer) throws IOException {
-        char[] symbols = content.toCharArray();
-        for (char symbol : symbols) {
-            writer.writeChar(symbol);
+    private void writeContent(String content, Writer writer) throws WriterException {
+        try {
+            char[] symbols = content.toCharArray();
+            for (char symbol : symbols) {
+                writer.writeChar(symbol);
+            }
+        } catch (IOException e) {
+            throw new WriterException("Writer Exteption");
         }
     }
 }
