@@ -1,4 +1,6 @@
-package com.text.compiler.reader;
+package com.text.compiler.io;
+
+import com.text.compiler.io.Reader;
 
 public class StringReader implements Reader {
     char[] content;

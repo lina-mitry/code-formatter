@@ -1,7 +1,7 @@
-package com.text.compiler.writer;
+package com.text.compiler.io;
 
 import com.text.compiler.exceptions.WriterException;
 
-public interface Writer extends AutoCloseable {
+public interface Writer extends Closable {
     void writeChar(char symbol) throws WriterException;
 }

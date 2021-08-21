@@ -2,11 +2,10 @@ import com.text.compiler.exceptions.ReaderException;
 import com.text.compiler.exceptions.ValidationException;
 import com.text.compiler.formatter.Formatter;
 import com.text.compiler.formatter.SimpleFormatter;
-import com.text.compiler.reader.FileReader;
-import com.text.compiler.reader.StringReader;
+import com.text.compiler.io.FileReader;
+import com.text.compiler.io.StringReader;
 import com.text.compiler.validator.SimpleValidator;
-import com.text.compiler.writer.FileWriter;
-import com.text.compiler.writer.StringWriter;
+import com.text.compiler.io.StringWriter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
@@ -26,7 +25,7 @@ public class FormatterTest {
 
     @Before
     public void configure() {
-        this.formatter = new SimpleFormatter(new SimpleValidator());
+        this.formatter = new SimpleFormatter();
     }
 
     @Test

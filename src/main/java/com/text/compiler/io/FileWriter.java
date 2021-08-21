@@ -1,4 +1,4 @@
-package com.text.compiler.writer;
+package com.text.compiler.io;
 
 import com.text.compiler.exceptions.WriterException;
 import java.io.File;

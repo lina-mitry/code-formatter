@@ -1,8 +1,9 @@
-package com.text.compiler.reader;
+package com.text.compiler.io;
 
 import com.text.compiler.exceptions.ReaderException;
 
-public interface Reader extends AutoCloseable {
+public interface Reader extends Closable {
+
     boolean hasChars() throws ReaderException;
 
     char readChar() throws ReaderException;

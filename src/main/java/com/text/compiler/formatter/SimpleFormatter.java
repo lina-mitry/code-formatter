@@ -2,39 +2,44 @@ package com.text.compiler.formatter;
 
 import com.text.compiler.enums.Tokens;
 import com.text.compiler.exceptions.ReaderException;
+import com.text.compiler.exceptions.ValidationException;
 import com.text.compiler.exceptions.WriterException;
-import com.text.compiler.reader.Reader;
+import com.text.compiler.io.Reader;
+import com.text.compiler.io.Writer;
+import com.text.compiler.lexer.Lexer;
+import com.text.compiler.lexer.Token;
+import com.text.compiler.validator.SimpleValidator;
 import com.text.compiler.validator.Validator;
-import com.text.compiler.writer.Writer;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.shaded.org.bouncycastle.util.Strings;
 
 @Slf4j
-public class SimpleFormatter extends Formatter {
+public class SimpleFormatter implements Formatter {
     private static final String TABULATION = "    ";
-
-    public SimpleFormatter(Validator validator) {
-        super(validator);
-    }
 
     @Override
     public String format(Reader input, Writer output) throws IOException {
-        var content = readContent(input);
-        validator.validate(content);
-        var builder = new StringBuilder();
-        var chars = content.toCharArray();
-        var line = new StringBuilder();
-        var bracketCounter = 0;
+        String content = readContent(input);
+        Validator validator = new SimpleValidator();
+        if (!validator.isValid(content)) {
+            throw new ValidationException("Validation was failed");
+        }
+        List<Token> tokens = Lexer.getTokenList(content);
+        StringBuilder builder = new StringBuilder();
+        char[] chars = content.toCharArray();
+        StringBuilder line = new StringBuilder();
+        int bracketCounter = 0;
         for (char symbol : chars) {
             if (symbol == Tokens.CLOSE_BRACKET.label) {
                 line.append(Strings.lineSeparator());
             }
             line.append(symbol);
             if (Arrays.stream(Tokens.values())
-                    .map((it) -> it.label)
+                    .map((token) -> token.label)
                     .collect(Collectors.toList())
                     .contains(symbol)) {
                 if (symbol == Tokens.CLOSE_BRACKET.label) {
@@ -54,7 +59,7 @@ public class SimpleFormatter extends Formatter {
     }
 
     private String readContent(Reader reader) throws ReaderException {
-        var content = new StringBuilder();
+        StringBuilder content = new StringBuilder();
         while (reader.hasChars()) {
             content.append(reader.readChar());
         }

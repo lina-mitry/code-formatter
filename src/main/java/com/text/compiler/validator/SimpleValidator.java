@@ -8,11 +8,11 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class SimpleValidator implements Validator {
     @Override
-    public void validate(String content) throws ValidationException {
-        checkBrackets(content);
+    public boolean isValid(String content) throws ValidationException {
+        return checkBrackets(content);
     }
 
-    private void checkBrackets(String content) throws ValidationException {
+    private boolean checkBrackets(String content) throws ValidationException {
         var chars = content.toCharArray();
         var stack = new LinkedList<Character>();
         for (char symbol : chars) {
@@ -24,13 +24,11 @@ public class SimpleValidator implements Validator {
                     if (stack.size() > 0) {
                         stack.pop();
                     } else {
-                        throw new ValidationException("Failed to check brackets");
+                        return false;
                     }
                 }
             }
         }
-        if (stack.size() != 0) {
-            throw new ValidationException("Failed to check brackets");
-        }
+        return stack.size() == 0;
     }
 }
