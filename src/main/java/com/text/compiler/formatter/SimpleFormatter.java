@@ -10,10 +10,12 @@ import com.text.compiler.lexer.Lexer;
 import com.text.compiler.lexer.Token;
 import com.text.compiler.validator.SimpleValidator;
 import com.text.compiler.validator.Validator;
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
 import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.shaded.org.bouncycastle.util.Strings;
 
@@ -29,6 +31,9 @@ public class SimpleFormatter implements Formatter {
             throw new ValidationException("Validation was failed");
         }
         List<Token> tokens = Lexer.getTokenList(content);
+        for (var token : tokens) {
+            log.info(token.type.toString() + " " + token.content);
+        }
         StringBuilder builder = new StringBuilder();
         char[] chars = content.toCharArray();
         StringBuilder line = new StringBuilder();
