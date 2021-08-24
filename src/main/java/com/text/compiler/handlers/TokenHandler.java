@@ -1,6 +1,6 @@
 package com.text.compiler.handlers;
 
-import com.text.compiler.lexer.Token;
+import com.text.compiler.token.Token;
 import lombok.Getter;
 
 @Getter

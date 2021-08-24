@@ -1,7 +1,6 @@
 package com.text.compiler.handlers;
 
-import com.text.compiler.enums.TokenType;
-import com.text.compiler.lexer.Token;
+import com.text.compiler.token.Token;
 
 public class OpenBracketTokenHandler extends TokenHandler {
     public OpenBracketTokenHandler(String lexeme) {
@@ -10,6 +9,6 @@ public class OpenBracketTokenHandler extends TokenHandler {
 
     @Override
     public Token handle() {
-        return new Token(TokenType.OPEN_BRACKET, String.valueOf(getLexeme()));
+        return new Token("OPEN_BRACKET", getLexeme());
     }
 }

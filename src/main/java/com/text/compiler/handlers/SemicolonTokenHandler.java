@@ -1,7 +1,6 @@
 package com.text.compiler.handlers;
 
-import com.text.compiler.enums.TokenType;
-import com.text.compiler.lexer.Token;
+import com.text.compiler.token.Token;
 
 public class SemicolonTokenHandler extends TokenHandler {
     public SemicolonTokenHandler(String lexeme) {
@@ -10,6 +9,6 @@ public class SemicolonTokenHandler extends TokenHandler {
 
     @Override
     public Token handle() {
-        return new Token(TokenType.SEMICOLON, getLexeme());
+        return new Token("SEMICOLON", getLexeme());
     }
 }

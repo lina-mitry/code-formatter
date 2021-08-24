@@ -1,7 +1,6 @@
 package com.text.compiler.handlers;
 
-import com.text.compiler.enums.TokenType;
-import com.text.compiler.lexer.Token;
+import com.text.compiler.token.Token;
 
 public class OtherTokenHandler extends TokenHandler {
     public OtherTokenHandler(String lexeme) {
@@ -10,6 +9,6 @@ public class OtherTokenHandler extends TokenHandler {
 
     @Override
     public Token handle() {
-        return new Token(TokenType.OTHER, getLexeme());
+        return new Token("OTHER", getLexeme());
     }
 }

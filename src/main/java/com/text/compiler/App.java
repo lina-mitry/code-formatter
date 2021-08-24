@@ -1,8 +1,10 @@
 package com.text.compiler;
 
+import com.text.compiler.formatter.Formatter;
 import com.text.compiler.formatter.SimpleFormatter;
 import com.text.compiler.io.FileReader;
 import com.text.compiler.io.FileWriter;
+import com.text.compiler.lexer.SimpleLexer;
 import java.io.File;
 import java.io.IOException;
 import lombok.extern.slf4j.Slf4j;
@@ -15,17 +17,11 @@ public class App {
     public static void main(String[] args) {
         try (FileReader fr = new FileReader(new File(PATH_INPUT));
              FileWriter fw = new FileWriter(new File(PATH_OUTPUT))) {
-            SimpleFormatter formatter = new SimpleFormatter();
-            formatter.format(fr, fw);
+            SimpleLexer lexer = new SimpleLexer(fr);
+            Formatter formatter = new SimpleFormatter();
+            log.info(formatter.format(lexer, fw));
         } catch (IOException e) {
             log.error("Format failed", e);
         }
-
-//        String string = "if{if{var;}}";
-//        List<Token> tokens = getTokenList(string);
-//        for (Token t : tokens) {
-//            System.out.println(t);
-//        }
-
     }
 }

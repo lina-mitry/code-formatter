@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.shaded.com.google.common.collect.Maps;
@@ -23,7 +24,7 @@ public class TokenHandlerFactory {
 
     public TokenHandler getHandler(String lexeme) {
         try {
-            HashMap<String, String> handlers = Maps.newHashMap(Maps.fromProperties(prop));
+            Map<String, String> handlers = new HashMap<>(Maps.fromProperties(prop));
             if (handlers.get(lexeme) == null) {
                 return new OtherTokenHandler(lexeme);
             }
