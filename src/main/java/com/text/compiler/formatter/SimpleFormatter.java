@@ -5,6 +5,9 @@ import com.text.compiler.io.Writer;
 import com.text.compiler.lexer.SimpleLexer;
 import com.text.compiler.token.IToken;
 import java.io.IOException;
+
+import com.text.compiler.validator.SimpleValidator;
+import com.text.compiler.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.shaded.org.bouncycastle.util.Strings;
 

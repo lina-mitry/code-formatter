@@ -1,12 +1,16 @@
 package com.text.compiler.lexer;
 
 import com.text.compiler.exceptions.ReaderException;
+import com.text.compiler.exceptions.ValidationException;
 import com.text.compiler.handlers.TokenHandlerFactory;
 import com.text.compiler.io.Reader;
 import com.text.compiler.token.IToken;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+
+import com.text.compiler.validator.SimpleValidator;
+import com.text.compiler.validator.Validator;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -44,6 +48,10 @@ public class SimpleLexer implements Lexer {
     }
 
     private List<IToken> getTokenList(String content) {
+        Validator validator = new SimpleValidator();
+        if (!validator.isValid(content)) {
+            throw new ValidationException("Validation was failed");
+        }
         TokenHandlerFactory factory = new TokenHandlerFactory();
         List<IToken> result = new ArrayList<>();
         int i = 0;

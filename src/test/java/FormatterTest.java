@@ -1,17 +1,15 @@
+import com.text.compiler.exceptions.CloseException;
 import com.text.compiler.exceptions.ReaderException;
 import com.text.compiler.exceptions.ValidationException;
+import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.formatter.Formatter;
 import com.text.compiler.formatter.SimpleFormatter;
-import com.text.compiler.io.FileReader;
-import com.text.compiler.io.StringReader;
-import com.text.compiler.validator.SimpleValidator;
-import com.text.compiler.io.StringWriter;
+import com.text.compiler.io.*;
+import com.text.compiler.lexer.SimpleLexer;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-
 import java.io.File;
-
 
 public class FormatterTest {
     private Formatter formatter;
@@ -29,43 +27,42 @@ public class FormatterTest {
     }
 
     @Test
-    public void checkNotPairBrackets() {
-        try (var reader = new StringReader(PAIR_BRACKET);
-             var writer = new StringWriter()) {
-            Assertions.assertDoesNotThrow(() -> formatter.format(reader, writer));
+    public void checkNotPairBrackets() throws CloseException, WriterException, ReaderException {
+        try (Reader reader = new StringReader(PAIR_BRACKET);
+             Writer writer = new StringWriter()) {
+            SimpleLexer lexer = new SimpleLexer(reader);
+            Assertions.assertDoesNotThrow(() -> formatter.format(lexer, writer));
         }
 
     }
 
     @Test
-    public void checkPairBrackets() {
-        try (var reader = new StringReader(NOT_PAIR_BRACKET);
-             var writer = new StringWriter()) {
-            Assertions.assertThrows(ValidationException.class, () -> formatter.format(reader, writer));
+    public void checkPairBrackets() throws CloseException, WriterException, ReaderException {
+        try (Reader reader = new StringReader(NOT_PAIR_BRACKET)) {
+            Assertions.assertThrows(ValidationException.class, () -> new SimpleLexer(reader));
         }
     }
 
     @Test
-    public void checkFirstClosePareBrackets() {
-        try (var reader = new StringReader(FIRST_CLOSE_BRACKET);
-             var writer = new StringWriter()) {
-            Assertions.assertThrows(ValidationException.class, () -> formatter.format(reader, writer));
+    public void checkFirstClosePairBrackets() throws CloseException, WriterException, ReaderException {
+        try (Reader reader = new StringReader(FIRST_CLOSE_BRACKET)) {
+            Assertions.assertThrows(ValidationException.class, () ->new SimpleLexer(reader));
         }
     }
 
     @Test
-    public void checkDifferentBracketsSequence() {
-        try (var reader = new StringReader(DIFFERENT_BRACKET_SEQUENCE);
-             var writer = new StringWriter()) {
-            Assertions.assertThrows(ValidationException.class, () -> formatter.format(reader, writer));
+    public void checkDifferentBracketsSequence() throws CloseException, WriterException, ReaderException {
+        try (Reader reader = new StringReader(DIFFERENT_BRACKET_SEQUENCE)) {
+            Assertions.assertThrows(ValidationException.class, () -> new SimpleLexer(reader));
         }
     }
 
     @Test
-    public void checkOneLineExpression() {
-        try (var reader = new StringReader(ONE_LINE_EXPRESSION);
-             var writer = new StringWriter()) {
-            Assertions.assertDoesNotThrow(() -> formatter.format(reader, writer));
+    public void checkOneLineExpression() throws CloseException, WriterException, ReaderException {
+        try (Reader reader = new StringReader(ONE_LINE_EXPRESSION);
+             Writer writer = new StringWriter()) {
+            SimpleLexer lexer = new SimpleLexer(reader);
+            Assertions.assertDoesNotThrow(() -> formatter.format(lexer, writer));
         }
     }
 
