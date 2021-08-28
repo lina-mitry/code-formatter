@@ -4,7 +4,7 @@ import com.text.compiler.io.Reader;
 
 public class StringReader implements Reader {
     char[] content;
-    int position = 0;
+    int position = -1;
 
     public StringReader(String content) {
         this.content = content.toCharArray();

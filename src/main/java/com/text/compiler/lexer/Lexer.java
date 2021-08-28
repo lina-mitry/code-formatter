@@ -1,9 +1,10 @@
 package com.text.compiler.lexer;
 
-import com.text.compiler.token.IToken;
+import com.text.compiler.exceptions.ReaderException;
+import com.text.compiler.token.Token;
 
 public interface Lexer {
-    IToken readToken();
+    Token nextToken() throws ReaderException;
 
-    boolean hasMoreTokens();
+    boolean hasMoreTokens() throws ReaderException;
 }

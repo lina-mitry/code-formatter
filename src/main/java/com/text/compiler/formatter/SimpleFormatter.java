@@ -2,12 +2,8 @@ package com.text.compiler.formatter;
 
 import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.io.Writer;
-import com.text.compiler.lexer.SimpleLexer;
-import com.text.compiler.token.IToken;
-import java.io.IOException;
-
-import com.text.compiler.validator.SimpleValidator;
-import com.text.compiler.validator.Validator;
+import com.text.compiler.lexer.Lexer;
+import com.text.compiler.token.Token;
 import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.shaded.org.bouncycastle.util.Strings;
 
@@ -16,13 +12,13 @@ public class SimpleFormatter implements Formatter {
     private static final String TABULATION = "    ";
 
     @Override
-    public String format(SimpleLexer lexer, Writer output) throws IOException {
+    public String format(Lexer lexer, Writer output) throws Exception {
         StringBuilder builder = new StringBuilder();
         StringBuilder line = new StringBuilder();
         int bracketCounter = 0;
-
+        lexer.nextToken();
         while (lexer.hasMoreTokens()) {
-            IToken token = lexer.readToken();
+            Token token = lexer.nextToken();
             if (token.getName().equals("CLOSE_BRACKET")) {
                 line.append(Strings.lineSeparator());
             }

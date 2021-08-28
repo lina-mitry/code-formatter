@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -17,7 +18,7 @@ public class FileReader implements Reader {
 
     public FileReader(File file) throws IOException {
         try {
-            this.inputStreamReader = new InputStreamReader(new FileInputStream(file));
+            this.inputStreamReader = new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8);
             current = inputStreamReader.read();
         } catch (FileNotFoundException e) {
             throw new ReaderException("Failed to initialize reader", e);
