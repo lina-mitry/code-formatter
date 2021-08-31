@@ -1,46 +1,62 @@
 package com.text.compiler.lexer;
 
-import com.text.compiler.command.Command;
 import com.text.compiler.command.CommandRepository;
-import com.text.compiler.command.lexer.DefaultCommand;
+import com.text.compiler.context.CommandContext;
 import com.text.compiler.exceptions.ReaderException;
+import com.text.compiler.io.PostponeReader;
 import com.text.compiler.io.Reader;
 import com.text.compiler.state.State;
-import com.text.compiler.state.StateMachine;
-import com.text.compiler.token.Token;
-import com.text.compiler.token.TokenType;
+import com.text.compiler.state.StateTransitions;
+import com.text.compiler.token.IToken;
+import com.text.compiler.token.TokenBuilder;
+import lombok.extern.slf4j.Slf4j;
+import org.testcontainers.shaded.org.apache.commons.lang.StringUtils;
 
-
+@Slf4j
 public class StateMachineLexer implements Lexer {
     private final Reader reader;
     private final CommandRepository repo;
-    private final StateMachine stateMachine;
+    private final StateTransitions transitions;
+    private final CommandContext ctx;
+    Reader postponeReader;
 
-    public StateMachineLexer(Reader reader, CommandRepository repo, StateMachine stateMachine) {
+
+    public StateMachineLexer(Reader reader) {
         this.reader = reader;
-        this.repo = repo;
-        this.stateMachine = stateMachine;
+        repo = new CommandRepository();
+        transitions = new StateTransitions();
+        ctx = new CommandContext();
+        postponeReader = new PostponeReader(ctx);
     }
 
     @Override
-    public Token nextToken() throws ReaderException {
-        State state = State.Common.DEFAULT;
-        StringBuilder tokenBuilder = new StringBuilder();
-        Command command = new DefaultCommand(TokenType.OTHER);
-        while (reader.hasChars()) {
-            char ch = reader.readChar();
-            if (ch == ' ') {
-                break;
-            }
-            state = stateMachine.nextState(state, ch);
-            command = repo.getCommand(state);
-            command.execute(ch, tokenBuilder);
+    public IToken nextToken() throws ReaderException {
+        var tokenBuilder = new TokenBuilder();
+        ctx.setTokenBuilder(tokenBuilder);
+        State state = State.DEFAULT;
+        String tokenName = StringUtils.EMPTY;
+        while (postponeReader.hasChars() && state != null) {
+            state = step(state, postponeReader, ctx);
+            ctx.clear();
         }
-        return Token.of(command, tokenBuilder.toString());
+
+        while (reader.hasChars() && state != null) {
+            tokenName = state.getState();
+            state = step(state, reader, ctx);
+        }
+
+        return tokenBuilder.buildToken(tokenName);
+    }
+
+    private State step(State state, Reader reader, CommandContext ctx) throws ReaderException {
+        var ch = reader.readChar();
+        repo.getCommand(state, ch).execute(ch, ctx);
+        return transitions.nextState(state, ch);
     }
 
     @Override
     public boolean hasMoreTokens() throws ReaderException {
-        return reader.hasChars();
+        return reader.hasChars() || ctx.getPostponeBuilder().length() > 0;
     }
+
 }

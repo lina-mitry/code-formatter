@@ -6,5 +6,5 @@ public interface Reader extends Closable {
 
     boolean hasChars() throws ReaderException;
 
-    char readChar() throws ReaderException;
+    Character readChar() throws ReaderException;
 }

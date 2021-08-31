@@ -1,7 +1,5 @@
 package com.text.compiler.io;
 
-import com.text.compiler.io.Reader;
-
 public class StringReader implements Reader {
     char[] content;
     int position = -1;
@@ -16,7 +14,7 @@ public class StringReader implements Reader {
     }
 
     @Override
-    public char readChar() {
+    public Character readChar() {
         return content[++position];
     }
 

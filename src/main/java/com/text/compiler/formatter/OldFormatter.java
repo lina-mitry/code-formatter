@@ -3,12 +3,13 @@ package com.text.compiler.formatter;
 import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.io.Writer;
 import com.text.compiler.lexer.Lexer;
+import com.text.compiler.token.IToken;
 import com.text.compiler.token.Token;
 import lombok.extern.slf4j.Slf4j;
 import org.testcontainers.shaded.org.bouncycastle.util.Strings;
 
 @Slf4j
-public class SimpleFormatter implements Formatter {
+public class OldFormatter implements Formatter {
     private static final String TABULATION = "    ";
 
     @Override
@@ -18,7 +19,7 @@ public class SimpleFormatter implements Formatter {
         int bracketCounter = 0;
         lexer.nextToken();
         while (lexer.hasMoreTokens()) {
-            Token token = lexer.nextToken();
+            IToken token = lexer.nextToken();
             if (token.getName().equals("CLOSE_BRACKET")) {
                 line.append(Strings.lineSeparator());
             }

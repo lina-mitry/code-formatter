@@ -1,23 +1,21 @@
 package com.text.compiler.command;
 
-import com.text.compiler.command.lexer.DefaultCommand;
-import com.text.compiler.command.lexer.ForCommand;
-import com.text.compiler.command.lexer.IfCommand;
 import com.text.compiler.state.State;
-import com.text.compiler.token.TokenType;
-
 import java.util.HashMap;
 import java.util.Map;
+import org.javatuples.Pair;
 
 public class CommandRepository {
-    private static final Map<State, Command> stateCommandMap = new HashMap<>();
+    private Map<Pair<State, Character>, Command> commandMap = new HashMap<>();
 
     public CommandRepository() {
-        stateCommandMap.put(State.For.TERMINATE, new ForCommand(TokenType.FOR));
-        stateCommandMap.put(State.If.TERMINATE, new IfCommand(TokenType.IF));
+        commandMap.put(new Pair<>(new State("for"), ' '), new DefaultCommand());
+        commandMap.put(new Pair<>(new State("for"), '('), new PostponeCommand());
+        commandMap.put(new Pair<>(new State("while"), '('), new PostponeCommand());
+        commandMap.put(new Pair<>(new State("default"), '('), new DefaultCommand());
     }
 
-    public Command getCommand(State state) {
-        return stateCommandMap.getOrDefault(state, new DefaultCommand(TokenType.OTHER));
+    public Command getCommand(State state, Character ch) {
+        return commandMap.getOrDefault(new Pair<>(state, ch), new DefaultCommand());
     }
 }

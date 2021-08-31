@@ -1,20 +1,16 @@
 package com.text.compiler.state;
 
-public interface State {
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
 
-    enum Common implements State {
-        DEFAULT,
-        UNKNOWN
-    }
+@Getter
+@EqualsAndHashCode
+public class State {
+    private final String state;
 
-    enum For implements State {
-        F,
-        FO,
-        TERMINATE
-    }
+    public static final State DEFAULT = new State("default");
 
-    enum If implements State {
-        I,
-        TERMINATE
+    public State(String state) {
+        this.state = state;
     }
 }

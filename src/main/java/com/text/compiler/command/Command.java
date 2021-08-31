@@ -1,15 +1,7 @@
 package com.text.compiler.command;
 
-import com.text.compiler.token.TokenType;
-import lombok.Data;
+import com.text.compiler.context.Context;
 
-@Data
-public abstract class Command {
-    private final TokenType type;
-
-    public Command(TokenType type) {
-        this.type = type;
-    }
-
-    public abstract void execute(Character symbol, StringBuilder tokenBuilder);
+public interface Command {
+    void execute(Character character, Context context);
 }

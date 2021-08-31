@@ -1,27 +1,30 @@
 package com.text.compiler.token;
 
-import com.text.compiler.command.Command;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-import java.util.Locale;
+@Setter
+public class Token implements IToken {
+    public String name;
+    public String lexeme;
 
-@Data
-public class Token {
-    public final TokenType name;
-    public final String lexeme;
-
-    public Token(TokenType name, String lexeme) {
+    public Token(String name, String lexeme) {
         this.name = name;
         this.lexeme = lexeme;
     }
 
     @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public String getLexeme() {
+        return lexeme;
+    }
+
+    @Override
     public String toString() {
-        return "TokenType: " + name + " Lexeme: " + lexeme;
+        return "Token: " + name + " Lexeme: " + lexeme;
     }
-
-    public static Token of(Command command, String lexeme) {
-        return new Token(command.getType(), lexeme);
-    }
-
 }

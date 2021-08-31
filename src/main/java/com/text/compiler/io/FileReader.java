@@ -26,7 +26,7 @@ public class FileReader implements Reader {
     }
 
     @Override
-    public char readChar() throws ReaderException {
+    public Character readChar() throws ReaderException {
         if (hasChars()) {
             int previous = current;
             try {
