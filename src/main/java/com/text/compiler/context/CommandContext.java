@@ -8,7 +8,6 @@ import lombok.Data;
 public class CommandContext implements Context {
     private StringBuilder postponeBuilder;
     private TokenBuilder tokenBuilder;
-    private State state;
 
     public CommandContext() {
         this.postponeBuilder = new StringBuilder();
