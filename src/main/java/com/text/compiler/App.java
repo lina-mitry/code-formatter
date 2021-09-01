@@ -13,7 +13,7 @@ public class App {
     public static final String PATH_OUTPUT = "src/main/resources/output.txt";
 
     public static void main(String[] args) throws ReaderException {
-        Reader reader = new StringReader("for(");
+        Reader reader = new StringReader("for(for");
         var lexer = new StateMachineLexer(reader);
         while (lexer.hasMoreTokens()) {
             System.out.println(lexer.nextToken());

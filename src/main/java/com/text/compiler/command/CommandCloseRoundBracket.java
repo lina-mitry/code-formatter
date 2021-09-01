@@ -2,9 +2,10 @@ package com.text.compiler.command;
 
 import com.text.compiler.context.Context;
 
-public class PostponeCommand implements Command {
+public class CommandCloseRoundBracket implements Command {
     @Override
     public void execute(Character character, Context context) {
-        context.appendPostpone(character);
+        context.appendLexeme(character);
+        context.setTokenName("Close_Round_Bracket");
     }
 }

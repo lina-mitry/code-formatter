@@ -1,5 +1,7 @@
 package com.text.compiler.token;
 
+import com.text.compiler.context.CommandContext;
+
 public class TokenBuilder {
     private String token;
     private StringBuilder lexeme;
@@ -16,7 +18,7 @@ public class TokenBuilder {
         lexeme.append(ch);
     }
 
-    public Token buildToken(String tokenName) {
-        return new Token(tokenName, lexeme.toString());
+    public Token buildToken() {
+        return new Token(token, lexeme.toString());
     }
 }

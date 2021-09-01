@@ -22,5 +22,9 @@ public class PostponeReader implements Reader {
 
     @Override
     public void close() {
+        position = -1;
+        ctx.getPostponeBuilder().setLength(0);
     }
 }
+
+

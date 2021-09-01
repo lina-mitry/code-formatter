@@ -10,7 +10,6 @@ import com.text.compiler.state.StateTransitions;
 import com.text.compiler.token.IToken;
 import com.text.compiler.token.TokenBuilder;
 import lombok.extern.slf4j.Slf4j;
-import org.testcontainers.shaded.org.apache.commons.lang.StringUtils;
 
 @Slf4j
 public class StateMachineLexer implements Lexer {
@@ -18,7 +17,6 @@ public class StateMachineLexer implements Lexer {
     private final CommandRepository repo;
     private final StateTransitions transitions;
     private final CommandContext ctx;
-    Reader postponeReader;
 
 
     public StateMachineLexer(Reader reader) {
@@ -26,7 +24,6 @@ public class StateMachineLexer implements Lexer {
         repo = new CommandRepository();
         transitions = new StateTransitions();
         ctx = new CommandContext();
-        postponeReader = new PostponeReader(ctx);
     }
 
     @Override
@@ -34,18 +31,16 @@ public class StateMachineLexer implements Lexer {
         var tokenBuilder = new TokenBuilder();
         ctx.setTokenBuilder(tokenBuilder);
         State state = State.DEFAULT;
-        String tokenName = StringUtils.EMPTY;
-        while (postponeReader.hasChars() && state != null) {
-            state = step(state, postponeReader, ctx);
-            ctx.clear();
+        try (var postponeReader = new PostponeReader(ctx)) {
+            while (postponeReader.hasChars() && state != null) {
+                state = step(state, postponeReader, ctx);
+            }
         }
-
         while (reader.hasChars() && state != null) {
-            tokenName = state.getState();
             state = step(state, reader, ctx);
         }
 
-        return tokenBuilder.buildToken(tokenName);
+        return tokenBuilder.buildToken();
     }
 
     private State step(State state, Reader reader, CommandContext ctx) throws ReaderException {

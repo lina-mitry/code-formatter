@@ -9,10 +9,14 @@ public class CommandRepository {
     private Map<Pair<State, Character>, Command> commandMap = new HashMap<>();
 
     public CommandRepository() {
-        commandMap.put(new Pair<>(new State("for"), ' '), new DefaultCommand());
-        commandMap.put(new Pair<>(new State("for"), '('), new PostponeCommand());
-        commandMap.put(new Pair<>(new State("while"), '('), new PostponeCommand());
-        commandMap.put(new Pair<>(new State("default"), '('), new DefaultCommand());
+        commandMap.put(new Pair<>(new State("for"), '('), new CommandFor());
+        commandMap.put(new Pair<>(new State("for"), ' '), new CommandFor());
+        commandMap.put(new Pair<>(new State("if"), '('), new CommandIf());
+        commandMap.put(new Pair<>(new State("if"), ' '), new CommandIf());
+        commandMap.put(new Pair<>(new State("default"), '('), new CommandOpenRoundBracket());
+        commandMap.put(new Pair<>(new State("default"), ')'), new CommandCloseRoundBracket());
+        commandMap.put(new Pair<>(new State("default"), '{'), new CommandOpenFiguredBracket());
+        commandMap.put(new Pair<>(new State("default"), '}'), new CommandCloseFiguredBracket());
     }
 
     public Command getCommand(State state, Character ch) {

@@ -1,9 +1,10 @@
 package com.text.compiler.token;
 
-import lombok.Getter;
+import lombok.Data;
 import lombok.Setter;
 
 @Setter
+@Data
 public class Token implements IToken {
     public String name;
     public String lexeme;

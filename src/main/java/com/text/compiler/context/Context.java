@@ -6,6 +6,4 @@ public interface Context {
     void setTokenName(String tokenName);
 
     void appendPostpone(Character character);
-
-    void clear();
 }

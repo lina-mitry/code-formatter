@@ -1,6 +1,5 @@
 package com.text.compiler.context;
 
-import com.text.compiler.state.State;
 import com.text.compiler.token.TokenBuilder;
 import lombok.Data;
 
@@ -26,10 +25,5 @@ public class CommandContext implements Context {
     @Override
     public void appendPostpone(Character character) {
         postponeBuilder.append(character);
-    }
-
-    @Override
-    public void clear() {
-        postponeBuilder.setLength(0);
     }
 }
