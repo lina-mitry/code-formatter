@@ -1,6 +1,6 @@
 package com.text.compiler.context;
 
-public interface Context {
+public interface IContextLexer {
     void appendLexeme(Character character);
 
     void setTokenName(String tokenName);

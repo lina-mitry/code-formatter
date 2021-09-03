@@ -26,6 +26,6 @@ public class Token implements IToken {
 
     @Override
     public String toString() {
-        return "Token: " + name + " Lexeme: " + lexeme;
+        return "TOKEN: [" + name + "] LEXEME: [" + lexeme + "]";
     }
 }

@@ -4,11 +4,11 @@ import com.text.compiler.token.TokenBuilder;
 import lombok.Data;
 
 @Data
-public class CommandContext implements Context {
+public class ContextLexer implements IContextLexer {
     private StringBuilder postponeBuilder;
     private TokenBuilder tokenBuilder;
 
-    public CommandContext() {
+    public ContextLexer() {
         this.postponeBuilder = new StringBuilder();
     }
 

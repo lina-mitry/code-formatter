@@ -1,12 +1,12 @@
 package com.text.compiler.io;
 
-import com.text.compiler.context.CommandContext;
+import com.text.compiler.context.ContextLexer;
 
 public class PostponeReader implements Reader {
-    CommandContext ctx;
+    ContextLexer ctx;
     int position = -1;
 
-    public PostponeReader(CommandContext ctx) {
+    public PostponeReader(ContextLexer ctx) {
         this.ctx = ctx;
     }
 

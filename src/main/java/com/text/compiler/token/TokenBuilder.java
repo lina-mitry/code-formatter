@@ -1,7 +1,5 @@
 package com.text.compiler.token;
 
-import com.text.compiler.context.CommandContext;
-
 public class TokenBuilder {
     private String token;
     private StringBuilder lexeme;
