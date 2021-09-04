@@ -5,18 +5,16 @@ import com.text.compiler.io.Reader;
 import com.text.compiler.io.StringReader;
 import com.text.compiler.lexer.StateMachineLexer;
 import com.text.compiler.token.IToken;
-import com.text.compiler.token.Token;
-import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-
 public class LexerTest {
-    private static final String TEST = "for()   {bbb;}if(a){fork; fo;}";
+    private static final String TEST = "for()   {bbb;}if(a){fork; }";
     private Reader reader;
 
-    @Before
-    public void configure() {
+    @BeforeEach
+    public void setUp() {
         reader = new StringReader(TEST);
     }
 
@@ -49,8 +47,8 @@ public class LexerTest {
         Assertions.assertEquals("bbb", textB.getLexeme());
 
         IToken semicolon =  lexer.nextToken();
-        Assertions.assertEquals(";", semicolon.getName());
-        Assertions.assertEquals("SEMICOLON", semicolon.getLexeme());
+        Assertions.assertEquals("SEMICOLON", semicolon.getName());
+        Assertions.assertEquals(";", semicolon.getLexeme());
 
         IToken closeFigureBracket =  lexer.nextToken();
         Assertions.assertEquals("CLOSE_FIGURE_BRACKETS", closeFigureBracket.getName());
@@ -72,10 +70,6 @@ public class LexerTest {
         Assertions.assertEquals("CLOSE_ROUND_BRACKETS", closeRoundBracket2.getName());
         Assertions.assertEquals(")", closeRoundBracket2.getLexeme());
 
-        IToken open =  lexer.nextToken();
-        Assertions.assertEquals("{", open.getName());
-        Assertions.assertEquals("OpenBracket", open.getLexeme());
-
         IToken openFigureBracket2 =  lexer.nextToken();
         Assertions.assertEquals("OPEN_FIGURE_BRACKETS", openFigureBracket2.getName());
         Assertions.assertEquals("{", openFigureBracket2.getLexeme());
@@ -85,16 +79,13 @@ public class LexerTest {
         Assertions.assertEquals("fork", textFork.getLexeme());
 
         IToken semicolon2 =  lexer.nextToken();
-        Assertions.assertEquals(";", semicolon2.getName());
-        Assertions.assertEquals("SEMICOLON", semicolon2.getLexeme());
+        Assertions.assertEquals("SEMICOLON", semicolon2.getName());
+        Assertions.assertEquals(";", semicolon2.getLexeme());
 
-        IToken textFo =  lexer.nextToken();
-        Assertions.assertEquals("TEXT", textFo.getName());
-        Assertions.assertEquals("fo", textFo.getLexeme());
+        IToken space2 = lexer.nextToken();
+        Assertions.assertEquals("SPACING", space2.getName());
+        Assertions.assertEquals(" ", space2.getLexeme());
 
-        IToken semicolon3 =  lexer.nextToken();
-        Assertions.assertEquals(";", semicolon3.getName());
-        Assertions.assertEquals("SEMICOLON", semicolon3.getLexeme());
 
         IToken closeFigureBracket2 =  lexer.nextToken();
         Assertions.assertEquals("CLOSE_FIGURE_BRACKETS", closeFigureBracket2.getName());

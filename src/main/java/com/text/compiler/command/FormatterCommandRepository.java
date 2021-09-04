@@ -1,6 +1,12 @@
 package com.text.compiler.command;
 
-import com.text.compiler.command.commands.formatter.*;
+import com.text.compiler.command.commands.formatter.AppendTokenCommand;
+import com.text.compiler.command.commands.formatter.CloseFigureBracketCommand;
+import com.text.compiler.command.commands.formatter.DoNothingCommand;
+import com.text.compiler.command.commands.formatter.LineStartCloseBracketCommand;
+import com.text.compiler.command.commands.formatter.LineStartCommand;
+import com.text.compiler.command.commands.formatter.OpenFigureBracketCommand;
+import com.text.compiler.command.commands.formatter.SemicolonCommand;
 import com.text.compiler.context.IContextFormatter;
 import com.text.compiler.state.FormatterState;
 import com.text.compiler.state.LexerState;

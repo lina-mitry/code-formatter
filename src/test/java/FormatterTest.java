@@ -11,21 +11,20 @@ import org.junit.jupiter.api.Assertions;
 
 
 public class FormatterTest {
-    private static final String TEST_STRING = "for()   {bbb;} if(a){fork;}";
-    private static final String EXPECTED_TEST_STRING =
-            "for() {\n" +
-            "    bbb;\n" +
-            "}\n" +
-            "if(a){\n" +
-            "    fork;\n" +
-            "}\n";
+    private static final String TEST = "for()   {bbb;} if(a){fork;}";
+    private static final String EXPECTED_TEST =
+                    "for() {\n" +
+                    "    bbb;\n" +
+                    "}\n" +
+                    "if(a){\n" +
+                    "    fork;\n" +
+                    "}\n";
     private Writer writer;
-    private Reader reader;
     private Lexer lexer;
 
     @Before
     public void setUp() {
-        reader = new StringReader(TEST_STRING);
+        Reader reader = new StringReader(TEST);
         lexer = new StateMachineLexer(reader);
         writer = new StringWriter();
     }
@@ -34,6 +33,6 @@ public class FormatterTest {
     public void test() throws Exception {
         StateMachineFormatter formatter = new StateMachineFormatter();
 
-        Assertions.assertEquals(EXPECTED_TEST_STRING, formatter.format(lexer, writer));
+        Assertions.assertEquals(EXPECTED_TEST, formatter.format(lexer, writer));
     }
 }
