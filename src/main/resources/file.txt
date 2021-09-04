@@ -1,1 +1,1 @@
-for()   {bbb;}if(a){fork; fo;}
+for()   {bbb;} if(a){fork;}

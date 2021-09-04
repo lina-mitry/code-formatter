@@ -100,7 +100,7 @@ public class LexerCommandRepository {
     }
 
     public Command<Character, IContextLexer> getCommand(LexerState lexerState, Character ch) {
-        //log.debug("Get command by state: {} and char: {}", state.getState(), ch);
+        //log.debug("Get command by state: {} and char: {}", lexerState.getState(), ch);
         Command<Character, IContextLexer> command = commandMap.get(new Pair<>(lexerState, ch));
         return (command == null)
                 ? commandMap.get(new Pair<>(lexerState, (Character) null))

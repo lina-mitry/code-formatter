@@ -5,6 +5,7 @@ import com.text.compiler.io.Reader;
 import com.text.compiler.io.StringReader;
 import com.text.compiler.lexer.StateMachineLexer;
 import com.text.compiler.token.IToken;
+import com.text.compiler.token.Token;
 import org.junit.Before;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
