@@ -11,14 +11,23 @@ import org.junit.jupiter.api.Assertions;
 
 
 public class FormatterTest {
-    private static final String TEST = "for()   {bbb;} if(a){fork;}";
-    private static final String EXPECTED_TEST =
-                    "for() {\n" +
-                    "    bbb;\n" +
-                    "}\n" +
-                    "if(a){\n" +
-                    "    fork;\n" +
-                    "}\n";
+    private static final String TEST = "for()   {ddd;} if(a) {fork;nnn;if(a) {aaa;if(a) {bbb=ccc;}\nelse      {aaa;}}}";
+    private static final String EXPECTED_TEST ="for() {\n" +
+            "    ddd;\n" +
+            "}\n" +
+            "if(a) {\n" +
+            "    fork;\n" +
+            "    nnn;\n" +
+            "    if(a) {\n" +
+            "        aaa;\n" +
+            "        if(a) {\n" +
+            "            bbb=ccc;\n" +
+            "        }\n" +
+            "        else {\n" +
+            "            aaa;\n" +
+            "        }\n" +
+            "    }\n" +
+            "}\n";
     private Writer writer;
     private Lexer lexer;
 

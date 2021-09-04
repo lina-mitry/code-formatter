@@ -1,24 +1,6 @@
 package com.text.compiler.command;
 
-import com.text.compiler.command.commands.lexer.AppendLexemeCommand;
-import com.text.compiler.command.commands.lexer.CloseFiguredBracketCommand;
-import com.text.compiler.command.commands.lexer.CloseRoundBracketCommand;
-import com.text.compiler.command.commands.lexer.CloseSquareBracketCommand;
-import com.text.compiler.command.commands.lexer.CommaCommand;
-import com.text.compiler.command.commands.lexer.DoNothingCommand;
-import com.text.compiler.command.commands.lexer.DotCommand;
-import com.text.compiler.command.commands.lexer.EqualSignCommand;
-import com.text.compiler.command.commands.lexer.ForCommand;
-import com.text.compiler.command.commands.lexer.IfCommand;
-import com.text.compiler.command.commands.lexer.NewLineCommand;
-import com.text.compiler.command.commands.lexer.OpenFiguredBracketCommand;
-import com.text.compiler.command.commands.lexer.OpenRoundBracketCommand;
-import com.text.compiler.command.commands.lexer.OpenSquareBracketCommand;
-import com.text.compiler.command.commands.lexer.PlusSignCommand;
-import com.text.compiler.command.commands.lexer.PostponeCommand;
-import com.text.compiler.command.commands.lexer.SemicolonCommand;
-import com.text.compiler.command.commands.lexer.SpacingCommand;
-import com.text.compiler.command.commands.lexer.TextCommand;
+import com.text.compiler.command.commands.lexer.*;
 import com.text.compiler.context.IContextLexer;
 import com.text.compiler.state.LexerState;
 import java.util.HashMap;
@@ -48,6 +30,7 @@ public class LexerCommandRepository {
         commandMap.put(new Pair<>(LexerState.FOR3, null), new TextCommand());
         commandMap.put(new Pair<>(LexerState.FOR1, ' '), new PostponeCommand());
         commandMap.put(new Pair<>(LexerState.FOR2, ' '), new PostponeCommand());
+        commandMap.put(new Pair<>(LexerState.FOR2, ';'), new PostponeCommand());
     }
 
     private void fillIfCommands() {
@@ -80,6 +63,10 @@ public class LexerCommandRepository {
         commandMap.put(new Pair<>(LexerState.DEFAULT, ' '), new SpacingCommand());
         commandMap.put(new Pair<>(LexerState.SPACING, ' '), new DoNothingCommand());
         commandMap.put(new Pair<>(LexerState.SPACING, null), new PostponeCommand());
+
+        commandMap.put(new Pair<>(LexerState.DEFAULT, '"'), new StringLiteralsCommand());
+        commandMap.put(new Pair<>(LexerState.STRING_LITERALS, '"'), new StringLiteralsCommand());
+        commandMap.put(new Pair<>(LexerState.STRING_LITERALS, null), new StringLiteralsCommand());
     }
 
     private void fillTextCommands() {

@@ -4,6 +4,8 @@ import com.text.compiler.formatter.Formatter;
 import com.text.compiler.formatter.StateMachineFormatter;
 import com.text.compiler.io.FileReader;
 import com.text.compiler.io.FileWriter;
+import com.text.compiler.io.Reader;
+import com.text.compiler.io.StringReader;
 import com.text.compiler.lexer.Lexer;
 import com.text.compiler.lexer.StateMachineLexer;
 import java.io.File;

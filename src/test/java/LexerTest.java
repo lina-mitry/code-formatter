@@ -10,7 +10,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class LexerTest {
-    private static final String TEST = "for()   {bbb;}if(a){fork; }";
+    private static final String TEST = "for()   {bbb;}if(a){fork; \"iff\";}";
     private Reader reader;
 
     @BeforeEach
@@ -85,6 +85,14 @@ public class LexerTest {
         IToken space2 = lexer.nextToken();
         Assertions.assertEquals("SPACING", space2.getName());
         Assertions.assertEquals(" ", space2.getLexeme());
+
+        IToken textFo =  lexer.nextToken();
+        Assertions.assertEquals("STRING_LITERALS", textFo.getName());
+        Assertions.assertEquals("\"iff\"", textFo.getLexeme());
+
+        IToken semicolon3 =  lexer.nextToken();
+        Assertions.assertEquals("SEMICOLON", semicolon3.getName());
+        Assertions.assertEquals(";", semicolon3.getLexeme());
 
 
         IToken closeFigureBracket2 =  lexer.nextToken();

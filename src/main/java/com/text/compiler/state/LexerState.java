@@ -31,6 +31,7 @@ public class LexerState {
     public static final LexerState EQUAL_SIGN = new LexerState("EQUAL_SIGN");
     public static final LexerState PLUS_SIGN = new LexerState("PLUS_SIGN");
     public static final LexerState DOT = new LexerState("DOT");
+    public static final LexerState STRING_LITERALS = new LexerState("STRING_LITERALS");
 
     public LexerState(String state) {
         this.state = state;
