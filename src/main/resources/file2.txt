@@ -13,3 +13,8 @@ while (j < content.length()) {
         }
         return content.substring(i, j);
     }
+
+
+    aaa {bbb;} if(aaa) {b;
+    bb;if(c) {fork;}else {kk;l;}
+    }

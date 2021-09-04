@@ -26,7 +26,7 @@ public class StateMachineFormatter implements Formatter {
 
     @Override
     public String format(Lexer lexer, Writer writer) throws Exception {
-        FormatterState formatterState = FormatterState.LINE_START;
+        FormatterState formatterState = FormatterState.DEFAULT;
         ctx.setContextBuilder(content);
         while (lexer.hasMoreTokens()) {
             IToken token = lexer.nextToken();

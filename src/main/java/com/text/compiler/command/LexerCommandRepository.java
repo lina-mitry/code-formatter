@@ -46,6 +46,8 @@ public class LexerCommandRepository {
         commandMap.put(new Pair<>(LexerState.FOR1, null), new TextCommand());
         commandMap.put(new Pair<>(LexerState.FOR2, null), new TextCommand());
         commandMap.put(new Pair<>(LexerState.FOR3, null), new TextCommand());
+        commandMap.put(new Pair<>(LexerState.FOR1, ' '), new PostponeCommand());
+        commandMap.put(new Pair<>(LexerState.FOR2, ' '), new PostponeCommand());
     }
 
     private void fillIfCommands() {
@@ -56,6 +58,7 @@ public class LexerCommandRepository {
         commandMap.put(new Pair<>(LexerState.IF1, ';'), new PostponeCommand());
         commandMap.put(new Pair<>(LexerState.IF1, ' '), new PostponeCommand());
         commandMap.put(new Pair<>(LexerState.IF1, '+'), new PostponeCommand());
+        commandMap.put(new Pair<>(LexerState.IF1, ','), new PostponeCommand());
         commandMap.put(new Pair<>(LexerState.IF1, null), new TextCommand());
         commandMap.put(new Pair<>(LexerState.IF2, null), new TextCommand());
 

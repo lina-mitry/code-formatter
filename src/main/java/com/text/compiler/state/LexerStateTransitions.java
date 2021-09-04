@@ -23,8 +23,10 @@ public class LexerStateTransitions {
         transitions.put(new Pair<>(LexerState.FOR3, ' '), LexerState.TERMINATED);
         transitions.put(new Pair<>(LexerState.FOR3, '('), LexerState.TERMINATED);
         transitions.put(new Pair<>(LexerState.FOR1, null), LexerState.TEXT);
+        transitions.put(new Pair<>(LexerState.FOR1, null), LexerState.TEXT);
         transitions.put(new Pair<>(LexerState.FOR2, null), LexerState.TEXT);
-        transitions.put(new Pair<>(LexerState.FOR3, null), LexerState.TEXT);
+        transitions.put(new Pair<>(LexerState.FOR1, ' '), LexerState.TERMINATED);
+        transitions.put(new Pair<>(LexerState.FOR2, ' '), LexerState.TERMINATED);
     }
 
     private void fillTextStates() {
@@ -52,6 +54,7 @@ public class LexerStateTransitions {
         transitions.put(new Pair<>(LexerState.IF1, ';'), LexerState.TERMINATED);
         transitions.put(new Pair<>(LexerState.IF1, ' '), LexerState.TERMINATED);
         transitions.put(new Pair<>(LexerState.IF1, '+'), LexerState.TERMINATED);
+        transitions.put(new Pair<>(LexerState.IF1, ','), LexerState.TERMINATED);
         transitions.put(new Pair<>(LexerState.IF2, null), LexerState.TEXT);
         transitions.put(new Pair<>(LexerState.IF1, null), LexerState.TEXT);
     }

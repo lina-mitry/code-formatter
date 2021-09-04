@@ -1,10 +1,6 @@
 package com.text.compiler.command;
 
-import com.text.compiler.command.commands.formatter.AppendTokenCommand;
-import com.text.compiler.command.commands.formatter.DoNothingCommand;
-import com.text.compiler.command.commands.formatter.IndentDecrementCommand;
-import com.text.compiler.command.commands.formatter.IndentIncrementCommand;
-import com.text.compiler.command.commands.formatter.SemicolonCommand;
+import com.text.compiler.command.commands.formatter.*;
 import com.text.compiler.context.IContextFormatter;
 import com.text.compiler.state.FormatterState;
 import com.text.compiler.state.LexerState;
@@ -23,14 +19,15 @@ public class FormatterCommandRepository {
     }
 
     void fillCommands() {
-        commandMap.put(new Pair<>(FormatterState.LINE_START, null), new AppendTokenCommand());
+        commandMap.put(new Pair<>(FormatterState.DEFAULT, null), new AppendTokenCommand());
         commandMap.put(new Pair<>(FormatterState.CODE, null), new AppendTokenCommand());
-        commandMap.put(new Pair<>(FormatterState.CODE, LexerState.OPEN_FIGURE_BRACKETS.getState()), new IndentIncrementCommand());
-        commandMap.put(new Pair<>(FormatterState.CODE, LexerState.CLOSE_FIGURE_BRACKETS.getState()), new IndentDecrementCommand());
         commandMap.put(new Pair<>(FormatterState.CODE, LexerState.SEMICOLON.getState()), new SemicolonCommand());
-        commandMap.put(new Pair<>(FormatterState.LINE_START, LexerState.SPACING.getState()), new DoNothingCommand());
-        commandMap.put(new Pair<>(FormatterState.CODE, LexerState.NEW_LINE.getState()), new DoNothingCommand());
+        commandMap.put(new Pair<>(FormatterState.CODE, LexerState.OPEN_FIGURE_BRACKETS.getState()), new OpenFigureBracketCommand());
+        commandMap.put(new Pair<>(FormatterState.CODE, LexerState.CLOSE_FIGURE_BRACKETS.getState()), new CloseFigureBracketCommand());
+        commandMap.put(new Pair<>(FormatterState.LINE_START, null), new LineStartCommand());
+        commandMap.put(new Pair<>(FormatterState.LINE_START, LexerState.CLOSE_FIGURE_BRACKETS.getState()), new LineStartCloseBracketCommand());
         commandMap.put(new Pair<>(FormatterState.LINE_START, LexerState.NEW_LINE.getState()), new DoNothingCommand());
+        commandMap.put(new Pair<>(FormatterState.LINE_START, LexerState.SPACING.getState()), new DoNothingCommand());
     }
 
     public Command<IToken, IContextFormatter> getCommand(FormatterState formatterState, IToken token) {

@@ -32,7 +32,7 @@ public class ContextFormatter implements IContextFormatter {
     }
 
     @Override
-    public void decrementIntent() {
+    public void decrementIndent() {
         indent--;
     }
 }

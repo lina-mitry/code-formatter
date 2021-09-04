@@ -11,5 +11,5 @@ public interface IContextFormatter {
 
     void incrementIndent();
 
-    void decrementIntent();
+    void decrementIndent();
 }

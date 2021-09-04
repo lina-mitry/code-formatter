@@ -13,13 +13,15 @@ public class FormatterStateTransitions {
     }
 
     private void fillStates() {
-        transitions.put(new Pair<>(FormatterState.LINE_START, null), FormatterState.CODE);
+        transitions.put(new Pair<>(FormatterState.DEFAULT, null), FormatterState.CODE);
         transitions.put(new Pair<>(FormatterState.CODE, null), FormatterState.CODE);
+        transitions.put(new Pair<>(FormatterState.CODE, LexerState.SEMICOLON.getState()), FormatterState.LINE_START);
         transitions.put(new Pair<>(FormatterState.CODE, LexerState.OPEN_FIGURE_BRACKETS.getState()), FormatterState.LINE_START);
         transitions.put(new Pair<>(FormatterState.CODE, LexerState.CLOSE_FIGURE_BRACKETS.getState()), FormatterState.LINE_START);
-        transitions.put(new Pair<>(FormatterState.CODE, LexerState.SEMICOLON.getState()), FormatterState.LINE_START);
+        transitions.put(new Pair<>(FormatterState.LINE_START, null), FormatterState.CODE);
+        transitions.put(new Pair<>(FormatterState.LINE_START, LexerState.CLOSE_FIGURE_BRACKETS.getState()), FormatterState.LINE_START);
+        transitions.put(new Pair<>(FormatterState.LINE_START, LexerState.NEW_LINE.getState()), FormatterState.LINE_START);
         transitions.put(new Pair<>(FormatterState.LINE_START, LexerState.SPACING.getState()), FormatterState.CODE);
-        transitions.put(new Pair<>(FormatterState.CODE, LexerState.NEW_LINE.getState()), FormatterState.CODE);
     }
 
     public FormatterState nextState(FormatterState formatterState, IToken token) {

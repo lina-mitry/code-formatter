@@ -4,10 +4,12 @@ import com.text.compiler.command.Command;
 import com.text.compiler.context.IContextFormatter;
 import com.text.compiler.token.IToken;
 
-public class SemicolonCommand implements Command<IToken, IContextFormatter> {
+public class CloseFigureBracketCommand implements Command<IToken, IContextFormatter> {
     @Override
     public void execute(IToken token, IContextFormatter context) {
-        context.writeLexeme(token);
+        context.decrementIndent();
         context.writeNewLine();
+        context.writeIndent();
+        context.writeLexeme(token);
     }
 }

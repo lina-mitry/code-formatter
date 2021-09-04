@@ -2,7 +2,9 @@ package com.text.compiler.lexer;
 
 import com.text.compiler.command.LexerCommandRepository;
 import com.text.compiler.context.ContextLexer;
+import com.text.compiler.exceptions.CloseException;
 import com.text.compiler.exceptions.ReaderException;
+import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.io.PostponeReader;
 import com.text.compiler.io.Reader;
 import com.text.compiler.state.LexerState;
@@ -26,11 +28,11 @@ public class StateMachineLexer implements Lexer {
     }
 
     @Override
-    public IToken nextToken() throws ReaderException {
-        var tokenBuilder = new TokenBuilder();
+    public IToken nextToken() throws ReaderException, CloseException, WriterException {
+        TokenBuilder tokenBuilder = new TokenBuilder();
         ctx.setTokenBuilder(tokenBuilder);
         LexerState lexerState = LexerState.DEFAULT;
-        try (var postponeReader = new PostponeReader(ctx)) {
+        try (Reader postponeReader = new PostponeReader(ctx)) {
             while (postponeReader.hasChars() && lexerState != LexerState.TERMINATED) {
                 lexerState = step(lexerState, postponeReader, ctx);
             }
@@ -43,7 +45,7 @@ public class StateMachineLexer implements Lexer {
     }
 
     private LexerState step(LexerState lexerState, Reader reader, ContextLexer ctx) throws ReaderException {
-        var ch = reader.readChar();
+        Character ch = reader.readChar();
         repo.getCommand(lexerState, ch).execute(ch, ctx);
         return transitions.nextState(lexerState, ch);
     }
