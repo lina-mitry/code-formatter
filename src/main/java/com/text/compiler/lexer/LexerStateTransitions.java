@@ -1,7 +1,9 @@
-package com.text.compiler.state;
+package com.text.compiler.lexer;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import com.text.compiler.lexer.LexerState;
 import lombok.extern.slf4j.Slf4j;
 import org.javatuples.Pair;
 

@@ -7,8 +7,6 @@ import com.text.compiler.exceptions.ReaderException;
 import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.io.PostponeReader;
 import com.text.compiler.io.Reader;
-import com.text.compiler.state.LexerState;
-import com.text.compiler.state.LexerStateTransitions;
 import com.text.compiler.token.IToken;
 import com.text.compiler.token.TokenBuilder;
 import lombok.extern.slf4j.Slf4j;

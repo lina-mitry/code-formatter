@@ -1,4 +1,4 @@
-package com.text.compiler.state;
+package com.text.compiler.formatter;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;

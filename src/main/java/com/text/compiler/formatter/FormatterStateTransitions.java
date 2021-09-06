@@ -1,5 +1,7 @@
-package com.text.compiler.state;
+package com.text.compiler.formatter;
 
+import com.text.compiler.formatter.FormatterState;
+import com.text.compiler.lexer.LexerState;
 import com.text.compiler.token.IToken;
 import java.util.HashMap;
 import java.util.Map;

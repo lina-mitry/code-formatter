@@ -2,7 +2,7 @@ package com.text.compiler.command.commands.lexer;
 
 import com.text.compiler.command.Command;
 import com.text.compiler.context.IContextLexer;
-import com.text.compiler.state.LexerState;
+import com.text.compiler.lexer.LexerState;
 
 public class SpacingCommand implements Command<Character, IContextLexer> {
     @Override

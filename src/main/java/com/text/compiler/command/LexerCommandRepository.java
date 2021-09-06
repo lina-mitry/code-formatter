@@ -2,7 +2,7 @@ package com.text.compiler.command;
 
 import com.text.compiler.command.commands.lexer.*;
 import com.text.compiler.context.IContextLexer;
-import com.text.compiler.state.LexerState;
+import com.text.compiler.lexer.LexerState;
 import java.util.HashMap;
 import java.util.Map;
 import lombok.extern.slf4j.Slf4j;

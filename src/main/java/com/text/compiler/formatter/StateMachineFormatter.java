@@ -5,8 +5,6 @@ import com.text.compiler.context.ContextFormatter;
 import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.io.Writer;
 import com.text.compiler.lexer.Lexer;
-import com.text.compiler.state.FormatterState;
-import com.text.compiler.state.FormatterStateTransitions;
 import com.text.compiler.token.IToken;
 import lombok.extern.slf4j.Slf4j;
 
