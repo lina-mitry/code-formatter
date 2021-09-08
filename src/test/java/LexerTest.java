@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 public class LexerTest {
     private static final String TEST = "for()   {bbb;}if(a){fork; \"iff\";//comm\n}";
-    //private static final String TEST = "for()   {bbb;}if(a){fork; \"iff\";}";
     private Reader reader;
 
     @BeforeEach
