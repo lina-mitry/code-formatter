@@ -4,10 +4,9 @@ import com.text.compiler.command.Command;
 import com.text.compiler.context.IContextFormatter;
 import com.text.compiler.token.IToken;
 
-public class SemicolonCommand implements Command<IToken, IContextFormatter> {
+public class NewLineFormatterCommand implements Command<IToken, IContextFormatter> {
     @Override
     public void execute(IToken token, IContextFormatter context) {
-        context.writeLexeme(token);
         context.writeNewLine();
     }
 }

@@ -4,7 +4,7 @@ import com.text.compiler.command.Command;
 import com.text.compiler.context.IContextFormatter;
 import com.text.compiler.token.IToken;
 
-public class LineStartCloseBracketCommand implements Command<IToken, IContextFormatter> {
+public class LineStartCloseBracketFormatterCommand implements Command<IToken, IContextFormatter> {
     @Override
     public void execute(IToken token, IContextFormatter context) {
         context.decrementIndent();

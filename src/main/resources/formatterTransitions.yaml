@@ -1,0 +1,19 @@
+states:
+  - state: 'DEFAULT'
+    transitions:
+      - { symbol: null, state: 'CODE', command: 'AppendTokenFormatterCommand' }
+
+  - state: 'CODE'
+    transitions:
+      - { symbol: 'SEMICOLON', state: 'LINE_START', command: 'SemicolonFormatterCommand' }
+      - { symbol: 'OPEN_FIGURE_BRACKETS', state: 'LINE_START', command: 'OpenFigureBracketFormatterCommand' }
+      - { symbol: 'CLOSE_FIGURE_BRACKETS', state: 'LINE_START', command: 'CloseFigureBracketFormatterCommand' }
+      - { symbol: null, state: 'CODE', command: 'AppendTokenFormatterCommand' }
+
+  - state: 'LINE_START'
+    transitions:
+      - { symbol: 'CLOSE_FIGURE_BRACKETS', state: 'LINE_START', command: 'LineStartCloseBracketFormatterCommand' }
+      - { symbol: 'NEW_LINE', state: 'LINE_START', command: 'DoNothingFormatterCommand' }
+      - { symbol: 'SPACING', state: 'CODE', command: 'DoNothingFormatterCommand' }
+      - { symbol: null, state: 'CODE', command: 'LineStartFormatterCommand' }
+

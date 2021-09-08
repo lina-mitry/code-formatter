@@ -3,7 +3,7 @@ import com.text.compiler.exceptions.ReaderException;
 import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.io.Reader;
 import com.text.compiler.io.StringReader;
-import com.text.compiler.lexer.StateMachineLexer;
+import com.text.compiler.lexer.Lexer;
 import com.text.compiler.token.IToken;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -11,6 +11,7 @@ import org.junit.jupiter.api.Test;
 
 public class LexerTest {
     private static final String TEST = "for()   {bbb;}if(a){fork; \"iff\";}";
+    //private static final String TEST = "bkj";
     private Reader reader;
 
     @BeforeEach
@@ -20,7 +21,7 @@ public class LexerTest {
 
     @Test
     void test() throws CloseException, WriterException, ReaderException {
-        StateMachineLexer lexer = new StateMachineLexer(reader);
+        Lexer lexer = new Lexer(reader);
 
         IToken forLoop = lexer.nextToken();
         Assertions.assertEquals("FOR3", forLoop.getName());

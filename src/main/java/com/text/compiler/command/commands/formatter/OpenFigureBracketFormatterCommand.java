@@ -4,12 +4,11 @@ import com.text.compiler.command.Command;
 import com.text.compiler.context.IContextFormatter;
 import com.text.compiler.token.IToken;
 
-public class CloseFigureBracketCommand implements Command<IToken, IContextFormatter> {
+public class OpenFigureBracketFormatterCommand implements Command<IToken, IContextFormatter> {
     @Override
     public void execute(IToken token, IContextFormatter context) {
-        context.decrementIndent();
-        context.writeNewLine();
-        context.writeIndent();
         context.writeLexeme(token);
+        context.writeNewLine();
+        context.incrementIndent();
     }
 }
