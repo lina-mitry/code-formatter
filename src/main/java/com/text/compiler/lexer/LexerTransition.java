@@ -21,13 +21,15 @@ public class LexerTransition {
     public Command<Character, IContextLexer> computeCommand() {
         Reflections reflections = new Reflections("com.text.compiler");
         Set<Class<? extends Command>> classes = reflections.getSubTypesOf(Command.class);
-        Optional<Class<? extends Command>> commandClass =
-                classes.stream().filter(c -> c.getSimpleName().equals(command)).findFirst();
+        Optional<Class<? extends Command>> commandClass = classes
+                .stream()
+                .filter(c -> c.getSimpleName().equals(command))
+                .findFirst();
         try {
             Constructor<?> ctor  = commandClass.get().getDeclaredConstructor();
             ctor.setAccessible(true);
-            var t = (Command<Character, IContextLexer>) ctor.newInstance();
-            return t;
+            return  (Command<Character, IContextLexer>) ctor.newInstance();
+
         } catch (InstantiationException
                 | NoSuchMethodException
                 | InvocationTargetException

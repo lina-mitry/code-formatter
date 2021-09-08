@@ -22,13 +22,15 @@ public class FormatterTransition {
     public Command<IToken, IContextFormatter> computeCommand() {
         Reflections reflections = new Reflections("com.text.compiler");
         Set<Class<? extends Command>> classes = reflections.getSubTypesOf(Command.class);
-        Optional<Class<? extends Command>> commandClass =
-                classes.stream().filter(c -> c.getSimpleName().equals(command)).findFirst();
+        Optional<Class<? extends Command>> commandClass = classes
+                .stream()
+                .filter(c -> c.getSimpleName().equals(command))
+                .findFirst();
         try {
             Constructor<?> ctor  = commandClass.get().getDeclaredConstructor();
             ctor.setAccessible(true);
-            var t = (Command<IToken, IContextFormatter>) ctor.newInstance();
-            return t;
+            return (Command<IToken, IContextFormatter>) ctor.newInstance();
+
         } catch (InstantiationException
                 | NoSuchMethodException
                 | InvocationTargetException
