@@ -12,7 +12,7 @@ public class LexerStateMachine {
     public Optional<LexerTransition> transition(String state, Character symbol) {
         Optional<LexerStateWrapper> stateOptional = states.stream().filter(s -> s.getState().equals(state)).findFirst();
         return stateOptional.flatMap(value -> value.getTransitions().stream()
-                .filter(t -> Objects.equals(t.getSymbol(), symbol)
-                        || Objects.equals(t.getSymbol(), null)).findFirst());
+                .filter(transition -> Objects.equals(transition.getSymbol(), symbol)
+                        || Objects.equals(transition.getSymbol(), null)).findFirst());
     }
 }

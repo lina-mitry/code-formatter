@@ -10,13 +10,13 @@ import lombok.Data;
 public class FormatterStateMachine {
     private List<FormatterStateWrapper> states;
 
-    public Optional<FormatterTransition> transition(IToken symbol, String state) {
+    public Optional<FormatterTransition> transition(IToken token, String state) {
         Optional<FormatterStateWrapper> stateOptional = states.stream()
                 .filter(s -> s.getState().equals(state)).findFirst();
 
         return stateOptional.flatMap(value -> value.getTransitions().stream()
-                .filter(t -> Objects.equals(t.getSymbol(), symbol.getName())
-                        || Objects.equals(t.getSymbol(), null)).findFirst());
+                .filter(transition -> Objects.equals(transition.getToken(), token.getName())
+                        || Objects.equals(transition.getToken(), null)).findFirst());
     }
 
 }

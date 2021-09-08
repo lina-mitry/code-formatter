@@ -17,6 +17,7 @@ states:
       - { symbol: '.', state: 'TERMINATED', command: 'DotCommand' }
       - { symbol: ' ', state: 'SPACING', command: 'SpacingCommand' }
       - { symbol: '"', state: 'STRING_LITERALS', command: 'StringLiteralsCommand' }
+      - { symbol: '/', state: 'LINE_COMMENT1', command: 'AppendLexemeCommand' }
       - { symbol: null, state: 'TEXT', command: 'TextCommand' }
 
   - state: 'FOR1'
@@ -78,3 +79,12 @@ states:
       - { symbol: ' ', state: 'TERMINATED', command: 'PostponeCommand' }
       - { symbol: '(', state: 'TERMINATED', command: 'PostponeCommand' }
       - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+
+  - state: 'LINE_COMMENT1'
+    transitions:
+      - { symbol: '/', state: 'LINE_COMMENT', command: 'OneLineCommentCommand' }
+
+  - state: 'LINE_COMMENT'
+    transitions:
+      - { symbol: "\n", state: 'TERMINATED', command: 'PostponeCommand' }
+      - { symbol: null, state: 'LINE_COMMENT', command: 'OneLineCommentCommand' }

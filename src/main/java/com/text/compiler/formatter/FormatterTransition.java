@@ -14,7 +14,7 @@ import org.reflections.Reflections;
 @Data
 @Slf4j
 public class FormatterTransition {
-    private String symbol;
+    private String token;
     private String state;
     private String command;
 
@@ -24,7 +24,7 @@ public class FormatterTransition {
         Set<Class<? extends Command>> classes = reflections.getSubTypesOf(Command.class);
         Optional<Class<? extends Command>> commandClass = classes
                 .stream()
-                .filter(c -> c.getSimpleName().equals(command))
+                .filter(command -> command.getSimpleName().equals(this.command))
                 .findFirst();
         try {
             Constructor<?> ctor  = commandClass.get().getDeclaredConstructor();

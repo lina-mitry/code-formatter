@@ -1,2 +1,2 @@
-for()   {bbb;} if(a) {fork;nnn;if(a) {aaa;if(a) {bbb="ccc";}
-else      {aaa;}}}
+for()   {bbb;}if(a){fork; "iff";//comm
+}
