@@ -5,30 +5,30 @@ import com.text.compiler.exceptions.WriterException;
 import com.text.compiler.io.Writer;
 import com.text.compiler.lexer.ILexer;
 import com.text.compiler.token.IToken;
-import java.util.Optional;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class Formatter implements IFormatter {
     private final ContextFormatter ctx;
     private final StringBuilder content;
-    private final FormatterStateMachine stateMachine;
+    private final FormatterExternalStateTransition transition;
+    private final FormatterExternalCommandRepository commandRepository;
 
     public Formatter() {
         ctx = new ContextFormatter();
         content = new StringBuilder();
-        stateMachine = new FormatterTransitionsLoad().getStateMachine();
+        transition = new FormatterExternalStateTransition("/formatterTransitions.yaml");
+        commandRepository = new FormatterExternalCommandRepository("formatterTransitions.yaml");
     }
 
     @Override
     public String format(ILexer lexer, Writer writer) throws Exception {
-        StateFormatter formatterState = new StateFormatter("DEFAULT");
+        FormatterState formatterState = new FormatterState("DEFAULT");
         ctx.setContextBuilder(content);
         while (lexer.hasMoreTokens()) {
             IToken token = lexer.nextToken();
-            Optional<FormatterTransition> transition = stateMachine.transition(token, formatterState.getState());
-            transition.ifPresent(tr -> tr.computeCommand().execute(token, ctx));
-            formatterState = new StateFormatter(transition.get().getState());
+            commandRepository.getCommand(formatterState, token).execute(token, ctx);
+            formatterState = transition.nextState(formatterState, token);
         }
         writeContent(content.toString(), writer);
         return content.toString();

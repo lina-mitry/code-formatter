@@ -1,90 +1,90 @@
 states:
   - state: 'DEFAULT'
-    transitions:
-      - { symbol: 'f', state: 'FOR1', command: 'AppendLexemeCommand' }
-      - { symbol: 'i', state: 'IF1', command: 'AppendLexemeCommand' }
-      - { symbol: '(', state: 'TERMINATED', command: 'OpenRoundBracketCommand' }
-      - { symbol: ')', state: 'TERMINATED', command: 'CloseRoundBracketCommand' }
-      - { symbol: '{', state: 'TERMINATED', command: 'OpenFiguredBracketCommand' }
-      - { symbol: '}', state: 'TERMINATED', command: 'CloseFiguredBracketCommand' }
-      - { symbol: ';', state: 'TERMINATED', command: 'SemicolonCommand' }
-      - { symbol: '+', state: 'TERMINATED', command: 'PlusSignCommand' }
-      - { symbol: "\n", state: 'TERMINATED', command: 'NewLineCommand' }
-      - { symbol: '=', state: 'TERMINATED', command: 'EqualSignCommand' }
-      - { symbol: ',', state: 'TERMINATED', command: 'CommaCommand' }
-      - { symbol: '[', state: 'TERMINATED', command: 'OpenSquareBracketCommand' }
-      - { symbol: ']', state: 'TERMINATED', command: 'CloseSquareBracketCommand' }
-      - { symbol: '.', state: 'TERMINATED', command: 'DotCommand' }
-      - { symbol: ' ', state: 'SPACING', command: 'SpacingCommand' }
-      - { symbol: '"', state: 'STRING_LITERALS', command: 'StringLiteralsCommand' }
-      - { symbol: '/', state: 'LINE_COMMENT1', command: 'AppendLexemeCommand' }
-      - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+    actions:
+      - { input: 'f', transition: 'FOR1', command: 'AppendLexemeCommand' }
+      - { input: 'i', transition: 'IF1', command: 'AppendLexemeCommand' }
+      - { input: '(', transition: 'TERMINATED', command: 'OpenRoundBracketCommand' }
+      - { input: ')', transition: 'TERMINATED', command: 'CloseRoundBracketCommand' }
+      - { input: '{', transition: 'TERMINATED', command: 'OpenFiguredBracketCommand' }
+      - { input: '}', transition: 'TERMINATED', command: 'CloseFiguredBracketCommand' }
+      - { input: ';', transition: 'TERMINATED', command: 'SemicolonCommand' }
+      - { input: '+', transition: 'TERMINATED', command: 'PlusSignCommand' }
+      - { input: "\n", transition: 'TERMINATED', command: 'NewLineCommand' }
+      - { input: '=', transition: 'TERMINATED', command: 'EqualSignCommand' }
+      - { input: ',', transition: 'TERMINATED', command: 'CommaCommand' }
+      - { input: '[', transition: 'TERMINATED', command: 'OpenSquareBracketCommand' }
+      - { input: ']', transition: 'TERMINATED', command: 'CloseSquareBracketCommand' }
+      - { input: '.', transition: 'TERMINATED', command: 'DotCommand' }
+      - { input: ' ', transition: 'SPACING', command: 'SpacingCommand' }
+      - { input: '"', transition: 'STRING_LITERALS', command: 'StringLiteralsCommand' }
+      - { input: '/', transition: 'LINE_COMMENT1', command: 'AppendLexemeCommand' }
+      - { input: null, transition: 'TEXT', command: 'TextCommand' }
 
   - state: 'FOR1'
-    transitions:
-      - { symbol: 'o', state: 'FOR2', command: 'AppendLexemeCommand' }
-      - { symbol: ' ', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+    actions:
+      - { input: 'o', transition: 'FOR2', command: 'AppendLexemeCommand' }
+      - { input: ' ', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: null, transition: 'TEXT', command: 'TextCommand' }
 
   - state: 'FOR2'
-    transitions:
-      - { symbol: 'r', state: 'FOR3', command: 'ForCommand' }
-      - { symbol: ' ', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: ';', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+    actions:
+      - { input: 'r', transition: 'FOR3', command: 'ForCommand' }
+      - { input: ' ', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: ';', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: null, transition: 'TEXT', command: 'TextCommand' }
 
   - state: 'FOR3'
-    transitions:
-      - { symbol: ' ', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '(', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+    actions:
+      - { input: ' ', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '(', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: null, transition: 'TEXT', command: 'TextCommand' }
 
   - state: 'TEXT'
-    transitions:
-      - { symbol: ' ', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: ';', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '(', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: ')', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '{', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '}', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: ',', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '=', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '+', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '[', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: ']', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '.', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+    actions:
+      - { input: ' ', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: ';', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '(', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: ')', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '{', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '}', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: ',', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '=', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '+', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '[', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: ']', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '.', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: null, transition: 'TEXT', command: 'TextCommand' }
 
   - state: 'SPACING'
-    transitions:
-      - { symbol: ' ', state: 'SPACING', command: 'DoNothingCommand' }
-      - { symbol: null, state: 'TERMINATED', command: 'PostponeCommand' }
+    actions:
+      - { input: ' ', transition: 'SPACING', command: 'DoNothingCommand' }
+      - { input: null, transition: 'TERMINATED', command: 'PostponeCommand' }
 
   - state: 'STRING_LITERALS'
-    transitions:
-      - { symbol: '"', state: 'TERMINATED', command: 'StringLiteralsCommand' }
-      - { symbol: null, state: 'STRING_LITERALS', command: 'StringLiteralsCommand' }
+    actions:
+      - { input: '"', transition: 'TERMINATED', command: 'StringLiteralsCommand' }
+      - { input: null, transition: 'STRING_LITERALS', command: 'StringLiteralsCommand' }
 
   - state: 'IF1'
-    transitions:
-      - { symbol: 'f', state: 'IF2', command: 'IfCommand' }
-      - { symbol: ';', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: ' ', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '+', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: ',', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+    actions:
+      - { input: 'f', transition: 'IF2', command: 'IfCommand' }
+      - { input: ';', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: ' ', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '+', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: ',', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: null, transition: 'TEXT', command: 'TextCommand' }
 
   - state: 'IF2'
-    transitions:
-      - { symbol: ' ', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: '(', state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: null, state: 'TEXT', command: 'TextCommand' }
+    actions:
+      - { input: ' ', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: '(', transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: null, transition: 'TEXT', command: 'TextCommand' }
 
   - state: 'LINE_COMMENT1'
-    transitions:
-      - { symbol: '/', state: 'LINE_COMMENT', command: 'OneLineCommentCommand' }
+    actions:
+      - { input: '/', transition: 'LINE_COMMENT', command: 'OneLineCommentCommand' }
 
   - state: 'LINE_COMMENT'
-    transitions:
-      - { symbol: "\n", state: 'TERMINATED', command: 'PostponeCommand' }
-      - { symbol: null, state: 'LINE_COMMENT', command: 'OneLineCommentCommand' }
+    actions:
+      - { input: "\n", transition: 'TERMINATED', command: 'PostponeCommand' }
+      - { input: null, transition: 'LINE_COMMENT', command: 'OneLineCommentCommand' }

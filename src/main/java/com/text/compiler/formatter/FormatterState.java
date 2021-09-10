@@ -1,14 +1,14 @@
-package com.text.compiler.lexer;
+package com.text.compiler.formatter;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode
-public class StateLexer {
+public class FormatterState {
     private final String state;
 
-    public StateLexer(String state) {
+    public FormatterState(String state) {
         this.state = state;
     }
 }

@@ -1,19 +1,19 @@
 states:
-  - state: 'DEFAULT'
-    transitions:
-      - { token: null, state: 'CODE', command: 'AppendTokenFormatterCommand' }
+ - state: 'DEFAULT'
+   actions:
+     - { token: null, transition: 'CODE', command: 'AppendTokenFormatterCommand' }
 
-  - state: 'CODE'
-    transitions:
-      - { token: 'SEMICOLON', state: 'LINE_START', command: 'SemicolonFormatterCommand' }
-      - { token: 'OPEN_FIGURE_BRACKETS', state: 'LINE_START', command: 'OpenFigureBracketFormatterCommand' }
-      - { token: 'CLOSE_FIGURE_BRACKETS', state: 'LINE_START', command: 'CloseFigureBracketFormatterCommand' }
-      - { token: null, state: 'CODE', command: 'AppendTokenFormatterCommand' }
+ - state: 'CODE'
+   actions:
+     - { token: 'SEMICOLON', transition: 'LINE_START', command: 'SemicolonFormatterCommand' }
+     - { token: 'OPEN_FIGURE_BRACKETS', transition: 'LINE_START', command: 'OpenFigureBracketFormatterCommand' }
+     - { token: 'CLOSE_FIGURE_BRACKETS', transition: 'LINE_START', command: 'CloseFigureBracketFormatterCommand' }
+     - { token: null, transition: 'CODE', command: 'AppendTokenFormatterCommand' }
 
-  - state: 'LINE_START'
-    transitions:
-      - { token: 'CLOSE_FIGURE_BRACKETS', state: 'LINE_START', command: 'LineStartCloseBracketFormatterCommand' }
-      - { token: 'NEW_LINE', state: 'LINE_START', command: 'DoNothingFormatterCommand' }
-      - { token: 'SPACING', state: 'CODE', command: 'DoNothingFormatterCommand' }
-      - { token: null, state: 'CODE', command: 'LineStartFormatterCommand' }
+ - state: 'LINE_START'
+   actions:
+     - { token: 'CLOSE_FIGURE_BRACKETS', transition: 'LINE_START', command: 'LineStartCloseBracketFormatterCommand' }
+     - { token: 'NEW_LINE', transition: 'LINE_START', command: 'DoNothingFormatterCommand' }
+     - { token: 'SPACING', transition: 'CODE', command: 'DoNothingFormatterCommand' }
+     - { token: null, transition: 'CODE', command: 'LineStartFormatterCommand' }
 
